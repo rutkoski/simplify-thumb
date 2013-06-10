@@ -1,0 +1,21 @@
+{
+    "name": "rutkoski/simplify-thumb",
+    "type": "library",
+    "description": "Thumb for Simplify PHP",
+    "keywords": ["framework","image","thumbnail","resize"],
+    "homepage": "https://github.com/rutkoski/simplify-thumb",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Rodrigo Rutkoski Rodrigues",
+            "email": "rutkoski@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.4",
+        "simplify-php": ">=1.0.0"
+    },
+    "autoload": {
+        "files": ["lib/autoload.php"]
+    }
+}
