@@ -112,9 +112,7 @@ class Simplify_Thumb
   public function load($file)
   {
     $this->originalFile = $file;
-    if (!sy_path_is_absolute($file)) {
-      $file = $this->baseDir . $this->filesPath . DIRECTORY_SEPARATOR . $file;
-    }
+    $file = $this->makeAbsolute($file);
     $info = @getimagesize($file);
     $this->originalType = $info[2];
     return $this;
@@ -565,9 +563,7 @@ class Simplify_Thumb
   {
     $file = $this->originalFile;
 
-    if (!sy_path_is_absolute($file)) {
-      $file = $this->baseDir . $this->filesPath . DIRECTORY_SEPARATOR . $file;
-    }
+    $file = $this->makeAbsolute($file);
 
     $f = new Simplify_Thumb_Processor();
 
@@ -578,6 +574,19 @@ class Simplify_Thumb
     }
 
     return $f;
+  }
+
+  protected function makeAbsolute($file)
+  {
+    if (!sy_path_is_absolute($file)) {
+      if (strpos($file, '/') !== 0) {
+        $file = $this->filesPath . DIRECTORY_SEPARATOR . $file;
+      }
+
+      $file = $this->baseDir . $file;
+    }
+
+    return $file;
   }
 
 }
