@@ -70,13 +70,55 @@ class Simplify_Thumb
   protected $originalType;
 
   /**
-   * Instantiate a new instance of Simplify_Thumb
+   * Return a new instance of Simplify_Thumb with optional params
    *
+   * @param mixed $params
    * @return Simplify_Thumb
    */
-  public static function factory()
+  public static function factory($params = null)
   {
-    return new self();
+    $thumb = new self();
+
+    if ($params !== false) {
+      $thumb->baseDir = sy_get_param($params, 'baseDir', s::config()->get('www_dir'));
+      $thumb->filesPath = sy_get_param($params, 'baseDir', s::config()->get('files_path'));
+      $thumb->cachePath = sy_get_param($params, 'baseDir', s::config()->get('filess_path') . '/cache');
+    }
+
+    return $thumb;
+  }
+
+  /**
+   *
+   * @param string $baseDir base (absolute) dir
+   * @return Simplify_Thumb
+   */
+  public function setBaseDir($baseDir)
+  {
+    $this->baseDir = $baseDir;
+    return $this;
+  }
+
+  /**
+   *
+   * @param string $path relative path to files
+   * @return Simplify_Thumb
+   */
+  public function setFilesPath($path)
+  {
+    $this->filesPath = $path;
+    return $this;
+  }
+
+  /**
+   *
+   * @param string $path relative path to cache
+   * @return Simplify_Thumb
+   */
+  public function setCachePath($path)
+  {
+    $this->cachePath = $path;
+    return $this;
   }
 
   /**
@@ -86,9 +128,6 @@ class Simplify_Thumb
    */
   public function __construct()
   {
-    $this->baseDir = s::config()->get('www_dir');
-    $this->filesPath = s::config()->get('files_path');
-    $this->cachePath = s::config()->get('files_path') . '/cache';
   }
 
   /**
