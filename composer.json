@@ -1,8 +1,8 @@
 {
     "name": "rutkoski/simplify-thumb",
     "type": "library",
-    "description": "Thumb for Simplify PHP",
-    "keywords": ["framework","image","thumbnail","resize"],
+    "description": "Thumbnail generation and image processing, extendable and with a fluent interface.",
+    "keywords": ["image","thumbnail","resize","effects"],
     "homepage": "https://github.com/rutkoski/simplify-thumb",
     "license": "GPL",
     "authors": [
@@ -12,8 +12,7 @@
         }
     ],
     "require": {
-        "php": ">=5.2.4",
-        "simplify-php": ">=1.0.0"
+        "php": ">=5.2.4"
     },
     "autoload": {
         "files": ["lib/autoload.php"]
