@@ -37,6 +37,12 @@ class Simplify_Thumb_Processor
   public $quality = 99;
 
   /**
+   *
+   * @var string
+   */
+  public $originalFilename;
+
+  /**
    * Image resource
    *
    * @var resource
@@ -82,6 +88,8 @@ class Simplify_Thumb_Processor
     if (! file_exists($file) || ! is_file($file)) {
       throw new Simplify_ThumbException("File not found: <b>{$file}</b>");
     }
+
+    $this->originalFilename = $file;
 
     $info = getimagesize($file);
 
