@@ -33,14 +33,17 @@ class Simplify_Thumb_Plugin_Overlay extends Simplify_Thumb_Plugin
    * (non-PHPdoc)
    * @see Simplify_Thumb_Plugin::process()
    */
-  protected function process(Simplify_Thumb_Processor $thumb, $overlayImage = null)
+  protected function process(Simplify_Thumb_Processor $thumb, $overlayImage = null, $dst_x = 0, $dst_y = 0, $src_x = 0, $src_y = 0, $dst_w = null, $dst_h = null, $src_w = null, $src_h = null)
   {
     $overlay = Simplify_Thumb_Functions::load($overlayImage);
 
-    $w = imagesx($overlay);
-    $h = imagesy($overlay);
+    $dst_w = is_null($dst_w) ? imagesx($thumb->image) : $dst_w;
+    $dst_h = is_null($dst_h) ? imagesy($thumb->image) : $dst_h;
 
-    imagecopyresampled($thumb->image, $overlay, 0, 0, 0, 0, $w, $h, $w, $h);
+    $src_w = is_null($src_w) ? imagesx($overlay) : $src_w;
+    $src_h = is_null($src_h) ? imagesy($overlay) : $src_h;
+
+    imagecopyresampled($thumb->image, $overlay, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
   }
 
 }

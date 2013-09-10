@@ -427,6 +427,48 @@ class Simplify_Thumb
   }
 
   /**
+   * Overlay an image
+   *
+   * @param string $overlayImage the image to overlay
+   * @param int $dst_x
+   * @param int $dst_y
+   * @param int $src_x
+   * @param int $src_y
+   * @param int $dst_w
+   * @param int $dst_h
+   * @param int $src_w
+   * @param int $src_h
+   */
+  public function overlay($overlayImage = null, $dst_x = 0, $dst_y = 0, $src_x = 0, $src_y = 0, $dst_w = null, $dst_h = null, $src_w = null, $src_h = null)
+  {
+    $params = func_get_args();
+    array_unshift($params, 'Simplify_Thumb_Plugin_Overlay');
+    $this->operations[] = array('callPlugin', $params);
+    return $this;
+  }
+
+  /**
+   * Merge an image
+   *
+   * @param string $overlayImage the image to overlay
+   * @param int $dst_x
+   * @param int $dst_y
+   * @param int $src_x
+   * @param int $src_y
+   * @param int $dst_w
+   * @param int $dst_h
+   * @param int $src_w
+   * @param int $src_h
+   */
+  public function merge($overlayImage = null, $dst_x = 0, $dst_y = 0, $src_x = 0, $src_y = 0, $src_w = null, $src_h = null, $pct = 0)
+  {
+    $params = func_get_args();
+    array_unshift($params, 'Simplify_Thumb_Plugin_Merge');
+    $this->operations[] = array('callPlugin', $params);
+    return $this;
+  }
+
+  /**
    * Call plugin
    *
    * @param string $plugin plugin class
