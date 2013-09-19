@@ -348,7 +348,6 @@ class Simplify_Thumb_Functions
     imagealphablending($temp, false);
     $trans = imagecolorallocatealpha($temp, $r, $g, $b, $a);
     imagefill($temp, 0, 0, $trans);
-    imagealphablending($temp, true);
     return $temp;
   }
 
@@ -425,7 +424,7 @@ class Simplify_Thumb_Functions
     $h1 = empty($height) ? $h0 : $height;
 
     if ($w0 == $w1 && $h0 == $h1)
-      return;
+      return $image;
 
     switch ($gravity) {
       case Simplify_Thumb::TOP_LEFT :
