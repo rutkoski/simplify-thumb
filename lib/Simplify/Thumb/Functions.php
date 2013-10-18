@@ -39,7 +39,7 @@ class Simplify_Thumb_Functions
   public static function load($file)
   {
     if (!file_exists($file) || !is_file($file)) {
-      throw new Simplify_ThumbException('File not found');
+      throw new Simplify_ThumbException("File not found: {$file}");
     }
 
     $info = getimagesize($file);

@@ -37,12 +37,13 @@ class Simplify_Thumb_Plugin_Overlay extends Simplify_Thumb_Plugin
   {
     $overlay = Simplify_Thumb_Functions::load($overlayImage);
 
-    $dst_w = is_null($dst_w) ? imagesx($thumb->image) : $dst_w;
-    $dst_h = is_null($dst_h) ? imagesy($thumb->image) : $dst_h;
+    $dst_w = is_null($dst_w) ? imagesx($overlay) : $dst_w;
+    $dst_h = is_null($dst_h) ? imagesy($overlay) : $dst_h;
 
     $src_w = is_null($src_w) ? imagesx($overlay) : $src_w;
     $src_h = is_null($src_h) ? imagesy($overlay) : $src_h;
 
+    imagealphablending($thumb->image, true);
     imagecopyresampled($thumb->image, $overlay, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
   }
 
