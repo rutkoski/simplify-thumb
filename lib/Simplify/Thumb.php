@@ -661,7 +661,7 @@ class Simplify_Thumb
   {
     if (!sy_path_is_absolute($file)) {
       if (strpos($file, '/') !== 0) {
-        $file = $this->filesPath . DIRECTORY_SEPARATOR . $file;
+        $file = $this->filesPath . '/' . $file;
       }
 
       $file = $this->baseDir . $file;
