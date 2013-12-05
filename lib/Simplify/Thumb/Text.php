@@ -46,9 +46,44 @@ class Simplify_Thumb_Text
     while (count($words)) {
       $word = array_shift($words);
 
-      $l = strlen($line . $word . ' ');
+      $l = strlen($line . $word);
 
       if ($l > $length) {
+        $new .= "\n";
+
+        $line = $word;
+      }
+      else {
+        $line .= $word;
+      }
+
+      $new .= $word;
+    }
+
+    return $new;
+  }
+
+  public static function breakTextToWidth($text, $font, $size, $width, $chars = ' .!,:?')
+  {
+    $chars = preg_quote($chars);
+
+    if (preg_match_all('/(?:(?:.*?)(?:[' . $chars . '])+|.+)/', $text, $matches)) {
+      $words = $matches[0];
+    }
+    else {
+      $words = (array) $text;
+    }
+
+    $new = '';
+
+    $line = '';
+    while (count($words)) {
+      $word = array_shift($words);
+
+      $b = imagettfbbox($size, 0, $font, $line . $word);
+      $w = $b[0] + $b[2];
+
+      if ($w > $width) {
         $new .= "\n";
 
         $line = $word;

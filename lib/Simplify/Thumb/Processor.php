@@ -47,7 +47,7 @@ class Simplify_Thumb_Processor
    *
    * @var resource
    */
-  protected $image;
+  public $image;
 
   /**
    * Call a plugin
