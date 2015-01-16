@@ -21,21 +21,23 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb\Plugin;
+
 /**
  *
  * Offset plugin
  *
  */
-class Simplify_Thumb_Plugin_Offset extends Simplify_Thumb_Plugin
+class Offset extends \Simplify\Thumb\Plugin
 {
 
   /**
    * (non-PHPdoc)
-   * @see Simplify_Thumb_Plugin::process()
+   * @see \Simplify\Thumb\Plugin::process()
    */
-  protected function process(Simplify_Thumb_Processor $thumb, $top = null, $right = null, $bottom = null, $left = null, $r = 0, $g = 0, $b = 0, $a = 0)
+  protected function process(\Simplify\Thumb\Processor $thumb, $top = null, $right = null, $bottom = null, $left = null, $r = 0, $g = 0, $b = 0, $a = 0)
   {
-    $thumb->image = Simplify_Thumb_Functions::offset($thumb->image, $top, $right, $bottom, $left, $r, $g, $b, $a);
+    $thumb->image = \Simplify\Thumb\Functions::offset($thumb->image, $top, $right, $bottom, $left, $r, $g, $b, $a);
   }
 
 }

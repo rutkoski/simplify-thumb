@@ -21,21 +21,23 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb\Plugin;
+
 /**
  *
  * Zoom crop plugin
  *
  */
-class Simplify_Thumb_Plugin_ZoomCrop extends Simplify_Thumb_Plugin
+class ZoomCrop extends \Simplify\Thumb\Plugin
 {
 
   /**
    * (non-PHPdoc)
-   * @see Simplify_Thumb_Plugin::process()
+   * @see \Simplify\Thumb\Plugin::process()
    */
-  protected function process(Simplify_Thumb_Processor $thumb, $width = null, $height = null, $gravity = Simplify_Thumb::CENTER)
+  protected function process(\Simplify\Thumb\Processor $thumb, $width = null, $height = null, $gravity = \Simplify\Thumb::CENTER)
   {
-    $thumb->image = Simplify_Thumb_Functions::zoomCrop($thumb->image, $width, $height, $gravity);
+    $thumb->image = \Simplify\Thumb\Functions::zoomCrop($thumb->image, $width, $height, $gravity);
   }
 
 }

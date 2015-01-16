@@ -21,19 +21,21 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb;
+
 /**
  *
  * Image processing plugin 
  *
  */
-abstract class Simplify_Thumb_Plugin extends Simplify_Thumb_Processor
+abstract class Plugin extends \Simplify\Thumb\Processor 
 {
 
   /**
    * Process image
    * 
-   * @param Simplify_Thumb_Processor $thumb
+   * @param \Simplify\Thumb\Processor $thumb
    */
-  abstract protected function process(Simplify_Thumb_Processor $thumb);
+  abstract protected function process(\Simplify\Thumb\Processor $thumb);
 
 }

@@ -114,7 +114,7 @@ Plugin that overlays an image on top of the current one:
 	
 	  protected function process(Simplify_Thumb_Processor $thumb, $overlayImage = null)
 	  {
-	    $overlay = Simplify_Thumb_Functions::load($overlayImage);
+	    $overlay = Simplify_Thumb_Functionload($overlayImage);
 	
 	    $w = imagesx($overlay);
 	    $h = imagesy($overlay);

@@ -1,3 +1,5 @@
 <?php
 
-class Simplify_ThumbException extends Exception {}
+namespace Simplify;
+
+class ThumbException extends \Exception {}

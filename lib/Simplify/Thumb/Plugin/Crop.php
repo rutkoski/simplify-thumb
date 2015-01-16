@@ -21,21 +21,23 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb\Plugin;
+
 /**
  *
  * Crop plugin
  *
  */
-class Simplify_Thumb_Plugin_Crop extends Simplify_Thumb_Plugin
+class Crop extends \Simplify\Thumb\Plugin
 {
 
   /**
    * (non-PHPdoc)
    * @see Simplify_Thumb_Plugin::process()
    */
-  protected function process(Simplify_Thumb_Processor $thumb, $x = null, $y = null, $width = null, $height = null, $r = 0, $g = 0, $b = 0, $a = 0)
+  protected function process(\Simplify\Thumb\Processor $thumb, $x = null, $y = null, $width = null, $height = null, $r = 0, $g = 0, $b = 0, $a = 0)
   {
-    $thumb->image = Simplify_Thumb_Functions::crop($thumb->image, $x, $y, $width, $height, $r, $g, $b, $a);
+    $thumb->image = \Simplify\Thumb\Functions::crop($thumb->image, $x, $y, $width, $height, $r, $g, $b, $a);
   }
 
 }

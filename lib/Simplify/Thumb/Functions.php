@@ -21,25 +21,27 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb;
+
 /**
  *
  * Basic image operations
  *
  */
-class Simplify_Thumb_Functions
+class Functions
 {
 
   /**
    * Load an image
    *
    * @param string $file
-   * @throws Simplify_Thumb_ThumbException
+   * @throws \Simplify\Thumb_ThumbException
    * @return resource
    */
   public static function load($file)
   {
     if (!file_exists($file) || !is_file($file)) {
-      throw new Simplify_ThumbException("File not found: {$file}");
+      throw new \Simplify\ThumbException("File not found: {$file}");
     }
 
     $info = getimagesize($file);
@@ -159,16 +161,16 @@ class Simplify_Thumb_Functions
    * Validate image resource
    *
    * @param resource $image
-   * @throws Simplify_Thumb_ThumbException
+   * @throws \Simplify\Thumb\ThumbException
    */
   public static function validateImageResource($image)
   {
     if ($image === null) {
-      throw new Simplify_ThumbException('No image specified');
+      throw new \Simplify\ThumbException('No image specified');
     }
 
     if ($image === false) {
-      throw new Simplify_ThumbException('File not found or not a valid image file');
+      throw new \Simplify\ThumbException('File not found or not a valid image file');
     }
   }
 
@@ -276,10 +278,10 @@ class Simplify_Thumb_Functions
    * @param int $mode
    * @param bool $far
    * @param int $background
-   * @throws Simplify_Thumb_ThumbException
+   * @throws \Simplify\Thumb_ThumbException
    * @return resource
    */
-  public static function resize($image, $width = null, $height = null, $mode = Simplify_Thumb::FIT_INSIDE, $far = false, $r = 0, $g = 0, $b = 0, $a = 0)
+  public static function resize($image, $width = null, $height = null, $mode = \Simplify\Thumb::FIT_INSIDE, $far = false, $r = 0, $g = 0, $b = 0, $a = 0)
   {
     self::validateImageResource($image);
 
@@ -293,7 +295,7 @@ class Simplify_Thumb_Functions
       return $image;
 
     switch ($mode) {
-      case Simplify_Thumb::FIT_INSIDE :
+      case \Simplify\Thumb::FIT_INSIDE :
         $size = self::fitInside($w0, $h0, $width, $height);
         $w1 = $size[0];
         $h1 = $size[1];
@@ -301,7 +303,7 @@ class Simplify_Thumb_Functions
         $h2 = $far ? $height : $h1;
         break;
 
-      case Simplify_Thumb::FIT_OUTSIDE :
+      case \Simplify\Thumb::FIT_OUTSIDE :
         $size = self::fitOutside($w0, $h0, $width, $height);
         $w1 = $size[0];
         $h1 = $size[1];
@@ -309,14 +311,14 @@ class Simplify_Thumb_Functions
         $h2 = $far ? $height : $h1;
         break;
 
-      case Simplify_Thumb::NO_SCALE :
+      case \Simplify\Thumb::NO_SCALE :
         $w1 = $w0;
         $h1 = $h0;
         $w2 = $far ? $width : $w1;
         $h2 = $far ? $height : $h1;
         break;
 
-      case Simplify_Thumb::SCALE_TO_FIT :
+      case \Simplify\Thumb::SCALE_TO_FIT :
         $w1 = $w2 = $width;
         $h1 = $h2 = $height;
         break;
@@ -328,7 +330,7 @@ class Simplify_Thumb_Functions
     $temp = self::createTransparentImage($w2, $h2, $r, $g, $b, $a);
 
     if (!imagecopyresampled($temp, $image, $x0, $y0, 0, 0, $w1, $h1, $w0, $h0)) {
-      throw new Simplify_ThumbException('There was an error resizing the image');
+      throw new \Simplify\ThumbException('There was an error resizing the image');
     }
 
     return $temp;
@@ -359,7 +361,7 @@ class Simplify_Thumb_Functions
    * @param int $y
    * @param int $width
    * @param int $height
-   * @throws Simplify_Thumb_ThumbException
+   * @throws \Simplify\Thumb_ThumbException
    * @return resource
    */
   public static function crop($image, $x, $y, $width, $height, $r = 0, $g = 0, $b = 0, $a = 0)
@@ -389,14 +391,14 @@ class Simplify_Thumb_Functions
    * @param int $g background green channel (0 - 255)
    * @param int $b background blue channel (0 - 255)
    * @param int $a background alpha channel (0 = opaque, 127 = transparent)
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public static function offset($image, $top, $right, $bottom, $left, $r = 0, $g = 0, $b = 0, $a = 0)
   {
     $w = imagesx($image);
     $h = imagesy($image);
 
-    $temp = Simplify_Thumb_Functions::createTransparentImage($w + $left + $right, $h + $top + $bottom, $r, $g, $b, $a);
+    $temp = self::createTransparentImage($w + $left + $right, $h + $top + $bottom, $r, $g, $b, $a);
 
     imagecopy($temp, $image, $left > 0 ? $left : 0, $top > 0 ? $top : 0, $left > 0 ? 0 : -$left, $top > 0 ? 0 : -$top,
       $w, $h + min($top, 0));
@@ -413,9 +415,9 @@ class Simplify_Thumb_Functions
    * @param int $gravity
    * @return resource
    */
-  public static function zoomCrop($image, $width, $height, $gravity = Simplify_Thumb::CENTER)
+  public static function zoomCrop($image, $width, $height, $gravity = \Simplify\Thumb::CENTER)
   {
-    $image = Simplify_Thumb_Functions::resize($image, $width, $height, Simplify_Thumb::FIT_OUTSIDE);
+    $image = self::resize($image, $width, $height, \Simplify\Thumb::FIT_OUTSIDE);
 
     $w0 = imagesx($image);
     $h0 = imagesy($image);
@@ -427,38 +429,38 @@ class Simplify_Thumb_Functions
       return $image;
 
     switch ($gravity) {
-      case Simplify_Thumb::TOP_LEFT :
-      case Simplify_Thumb::LEFT :
-      case Simplify_Thumb::BOTTOM_LEFT :
+      case \Simplify\Thumb::TOP_LEFT :
+      case \Simplify\Thumb::LEFT :
+      case \Simplify\Thumb::BOTTOM_LEFT :
         $x = 0;
         break;
-      case Simplify_Thumb::TOP_RIGHT :
-      case Simplify_Thumb::RIGHT :
-      case Simplify_Thumb::BOTTOM_RIGHT :
+      case \Simplify\Thumb::TOP_RIGHT :
+      case \Simplify\Thumb::RIGHT :
+      case \Simplify\Thumb::BOTTOM_RIGHT :
         $x = $w0 - $w1;
         break;
-      case Simplify_Thumb::CENTER :
+      case \Simplify\Thumb::CENTER :
       default :
         $x = floor($w0 - $w1) / 2;
     }
 
     switch ($gravity) {
-      case Simplify_Thumb::TOP_LEFT :
-      case Simplify_Thumb::TOP :
-      case Simplify_Thumb::TOP_RIGHT :
+      case \Simplify\Thumb::TOP_LEFT :
+      case \Simplify\Thumb::TOP :
+      case \Simplify\Thumb::TOP_RIGHT :
         $y = 0;
         break;
-      case Simplify_Thumb::BOTTOM_LEFT :
-      case Simplify_Thumb::BOTTOM :
-      case Simplify_Thumb::BOTTOM_RIGHT :
+      case \Simplify\Thumb::BOTTOM_LEFT :
+      case \Simplify\Thumb::BOTTOM :
+      case \Simplify\Thumb::BOTTOM_RIGHT :
         $y = $h0 - $h1;
         break;
-      case Simplify_Thumb::CENTER :
+      case \Simplify\Thumb::CENTER :
       default :
         $y = floor($h0 - $h1) / 2;
     }
 
-    return Simplify_Thumb_Functions::crop($image, $x, $y, $w1, $h1);
+    return self::crop($image, $x, $y, $w1, $h1);
   }
 
 }

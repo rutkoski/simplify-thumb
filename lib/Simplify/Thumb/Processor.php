@@ -21,12 +21,14 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb;
+
 /**
  *
  * Image processor
  *
  */
-class Simplify_Thumb_Processor
+class Processor
 {
 
   /**
@@ -81,12 +83,12 @@ class Simplify_Thumb_Processor
    * Load image file
    *
    * @param string $file
-   * @throws Simplify_ThumbException
+   * @throws \Simplify\ThumbException
    */
   public function load($file)
   {
     if (! file_exists($file) || ! is_file($file)) {
-      throw new Simplify_ThumbException("File not found: <b>{$file}</b>");
+      throw new \Simplify\ThumbException("File not found: <b>{$file}</b>");
     }
 
     $this->originalFilename = $file;
@@ -111,7 +113,7 @@ class Simplify_Thumb_Processor
         break;
     }
 
-    Simplify_Thumb_Functions::validateImageResource($image);
+    \Simplify\Thumb\Functions::validateImageResource($image);
 
     $this->image = $image;
     $this->originalType = $originalType;
@@ -127,7 +129,7 @@ class Simplify_Thumb_Processor
   {
     $image = $this->image;
 
-    Simplify_Thumb_Functions::validateImageResource($image);
+    \Simplify\Thumb\Functions::validateImageResource($image);
 
     if (empty($type)) {
       $type = $this->originalType;
@@ -174,10 +176,16 @@ class Simplify_Thumb_Processor
       $type = $this->originalType;
     }
 
-    Simplify_Thumb_Functions::validateImageResource($image);
+    \Simplify\Thumb\Functions::validateImageResource($image);
 
     if (empty($type)) {
       $type = IMAGETYPE_JPEG;
+    }
+    
+    if (!is_dir(dirname($file))) {
+      if (!mkdir(dirname($file))) {
+        throw new \Simplify\ThumbException('Could not create thumb save dir: ' . dirname($file));
+      }
     }
 
     switch ($type) {

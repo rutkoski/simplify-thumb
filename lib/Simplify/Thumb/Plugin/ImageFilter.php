@@ -21,21 +21,23 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb\Plugin;
+
 /**
  *
  * Wrapper for PHP imagefilter function
  *
  */
-class Simplify_Thumb_Plugin_ImageFilter extends Simplify_Thumb_Plugin
+class ImageFilter extends \Simplify\Thumb\Plugin
 {
 
   /**
    * (non-PHPdoc)
-   * @see Simplify_Thumb_Plugin::process()
+   * @see \Simplify\Thumb\Plugin::process()
    */
-  protected function process(Simplify_Thumb_Processor $thumb, $filter = null)
+  protected function process(\Simplify\Thumb\Processor $thumb, $filter = null)
   {
-    Simplify_Thumb_Functions::validateImageResource($thumb->image);
+    \Simplify\Thumb\Functions::validateImageResource($thumb->image);
     $args = func_get_args();
     $args[0] = $thumb->image;
     call_user_func_array('imagefilter', $args);

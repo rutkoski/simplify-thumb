@@ -21,19 +21,21 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb\Plugin;
+
 /**
  *
  * Crop plugin
  *
  */
-class Simplify_Thumb_Plugin_Callback extends Simplify_Thumb_Plugin
+class Callback extends \Simplify\Thumb\Plugin
 {
 
   /**
    * (non-PHPdoc)
-   * @see Simplify_Thumb_Plugin::process()
+   * @see \Simplify\Thumb\Plugin::process()
    */
-  protected function process(Simplify_Thumb_Processor $thumb, $callback = null)
+  protected function process(\Simplify\Thumb\Processor $thumb, $callback = null)
   {
     $args = func_get_args();
     unset($args[1]);

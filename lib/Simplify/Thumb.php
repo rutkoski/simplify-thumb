@@ -21,12 +21,14 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify;
+
 /**
  *
  * Image processing
  *
  */
-class Simplify_Thumb
+class Thumb
 {
 
   const TOP = 'T';
@@ -70,19 +72,19 @@ class Simplify_Thumb
   protected $originalType;
 
   /**
-   * Return a new instance of Simplify_Thumb with optional params
+   * Return a new instance of \Simplify\Thumb with optional params
    *
    * @param mixed $params
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public static function factory($params = null)
   {
     $thumb = new self();
 
     if ($params !== false) {
-      $thumb->baseDir = sy_get_param($params, 'baseDir', s::config()->get('www_dir'));
-      $thumb->filesPath = sy_get_param($params, 'baseDir', s::config()->get('files_path'));
-      $thumb->cachePath = sy_get_param($params, 'baseDir', s::config()->get('filess_path') . '/cache');
+      $thumb->baseDir = sy_get_param($params, 'baseDir', \Simplify::config()->get('www_dir'));
+      $thumb->filesPath = sy_get_param($params, 'baseDir', \Simplify::config()->get('files_path'));
+      $thumb->cachePath = sy_get_param($params, 'baseDir', \Simplify::config()->get('filess_path') . '/cache');
     }
 
     return $thumb;
@@ -91,7 +93,7 @@ class Simplify_Thumb
   /**
    *
    * @param string $baseDir base (absolute) dir
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function setBaseDir($baseDir)
   {
@@ -102,7 +104,7 @@ class Simplify_Thumb
   /**
    *
    * @param string $path relative path to files
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function setFilesPath($path)
   {
@@ -113,7 +115,7 @@ class Simplify_Thumb
   /**
    *
    * @param string $path relative path to cache
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function setCachePath($path)
   {
@@ -134,7 +136,7 @@ class Simplify_Thumb
    * Ignore cached files
    *
    * @param boolean $ignoreCache
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function ignoreCache($ignoreCache = true)
   {
@@ -146,7 +148,7 @@ class Simplify_Thumb
    * Load image file
    *
    * @param string $file
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function load($file)
   {
@@ -168,12 +170,12 @@ class Simplify_Thumb
    * @param int $g background green channel (0 - 255)
    * @param int $b background blue channel (0 - 255)
    * @param int $a background alpha channel (0 = opaque, 127 = transparent)
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
-  public function resize($width = null, $height = null, $mode = Simplify_Thumb::FIT_INSIDE, $far = false, $r = 0, $g = 0, $b = 0, $a = 0)
+  public function resize($width = null, $height = null, $mode = \Simplify\Thumb::FIT_INSIDE, $far = false, $r = 0, $g = 0, $b = 0, $a = 0)
   {
     $params = func_get_args();
-    array_unshift($params, 'Simplify_Thumb_Plugin_Resize');
+    array_unshift($params, '\Simplify\Thumb\Plugin\Resize');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -189,12 +191,12 @@ class Simplify_Thumb
    * @param int $g background green channel (0 - 255)
    * @param int $b background blue channel (0 - 255)
    * @param int $a background alpha channel (0 = opaque, 127 = transparent)
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function crop($x, $y, $width, $height, $r = 0, $g = 0, $b = 0, $a = 0)
   {
     $params = func_get_args();
-    array_unshift($params, 'Simplify_Thumb_Plugin_Crop');
+    array_unshift($params, '\Simplify\Thumb\Plugin\Crop');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -210,12 +212,12 @@ class Simplify_Thumb
    * @param int $g background green channel (0 - 255)
    * @param int $b background blue channel (0 - 255)
    * @param int $a background alpha channel (0 = opaque, 127 = transparent)
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function offset($top, $right, $bottom, $left, $r = 0, $g = 0, $b = 0, $a = 0)
   {
     $params = func_get_args();
-    array_unshift($params, 'Simplify_Thumb_Plugin_Offset');
+    array_unshift($params, '\Simplify\Thumb\Plugin\Offset');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -226,12 +228,12 @@ class Simplify_Thumb
    * @param int $width final width
    * @param int $height final height
    * @param string $gravity position position
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
-  public function zoomCrop($width = null, $height = null, $gravity = Simplify_Thumb::CENTER)
+  public function zoomCrop($width = null, $height = null, $gravity = \Simplify\Thumb::CENTER)
   {
     $params = func_get_args();
-    array_unshift($params, 'Simplify_Thumb_Plugin_ZoomCrop');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ZoomCrop');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -240,7 +242,7 @@ class Simplify_Thumb
    * Set jpg quality
    *
    * @param int $quality jpg ouput quality (1 - 100)
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function quality($quality)
   {
@@ -252,13 +254,13 @@ class Simplify_Thumb
    * Change image brightness level
    *
    * @param int $level -255 = min brightness, 0 = no change, +255 = max brightness
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function brightness($level)
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_BRIGHTNESS);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -266,13 +268,13 @@ class Simplify_Thumb
   /**
    * Converts the image into grayscale
    *
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function grayscale()
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_GRAYSCALE);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -280,13 +282,13 @@ class Simplify_Thumb
   /**
    * Reverses all colors of the image
    *
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function negate()
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_NEGATE);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -295,13 +297,13 @@ class Simplify_Thumb
    * Change image contrast level
    *
    * @param int $level -100 = max contrast, 0 = no change, +100 = min contrast
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function contrast($level)
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_CONTRAST);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -314,13 +316,13 @@ class Simplify_Thumb
    * @param int $green value of green component
    * @param int $blue value of blue component
    * @param int $alpha alpha channel, A value between 0 and 127. 0 indicates completely opaque while 127 indicates completely transparent
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function colorize($red, $green, $blue, $alpha)
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_COLORIZE);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -328,13 +330,13 @@ class Simplify_Thumb
   /**
    * Uses edge detection to highlight the edges in the image.
    *
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function edgedetect()
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_EDGEDETECT);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -342,13 +344,13 @@ class Simplify_Thumb
   /**
    * Embosses the image.
    *
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function emboss()
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_EMBOSS);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -356,13 +358,13 @@ class Simplify_Thumb
   /**
    * Blurs the image using the Gaussian method.
    *
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function gaussianBlur()
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_GAUSSIAN_BLUR);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -370,13 +372,13 @@ class Simplify_Thumb
   /**
    * Blurs the image.
    *
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function selectiveBlur()
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_SELECTIVE_BLUR);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -384,13 +386,13 @@ class Simplify_Thumb
   /**
    * Uses mean removal to achieve a "sketchy" effect.
    *
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function meanRemoval()
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_MEAN_REMOVAL);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -399,13 +401,13 @@ class Simplify_Thumb
    * Makes the image smoother. Use arg1 to set the level of smoothness.
    *
    * @param int $level Smoothness level.
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function smooth($level)
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_SMOOTH);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -415,13 +417,13 @@ class Simplify_Thumb
    *
    * @param int $blockSize Block size in pixels.
    * @param boolean $advanced Whether to use advanced pixelation effect or not (defaults to FALSE).
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function pixelate($blockSize, $advanced = false)
   {
     $params = func_get_args();
     array_unshift($params, IMG_FILTER_PIXELATE);
-    array_unshift($params, 'Simplify_Thumb_Plugin_ImageFilter');
+    array_unshift($params, '\Simplify\Thumb\Plugin\ImageFilter');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -442,7 +444,7 @@ class Simplify_Thumb
   public function overlay($overlayImage = null, $dst_x = 0, $dst_y = 0, $src_x = 0, $src_y = 0, $dst_w = null, $dst_h = null, $src_w = null, $src_h = null)
   {
     $params = func_get_args();
-    array_unshift($params, 'Simplify_Thumb_Plugin_Overlay');
+    array_unshift($params, '\Simplify\Thumb\Plugin\Overlay');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -463,7 +465,7 @@ class Simplify_Thumb
   public function merge($overlayImage = null, $dst_x = 0, $dst_y = 0, $src_x = 0, $src_y = 0, $src_w = null, $src_h = null, $pct = 0)
   {
     $params = func_get_args();
-    array_unshift($params, 'Simplify_Thumb_Plugin_Merge');
+    array_unshift($params, '\Simplify\Thumb\Plugin\Merge');
     $this->operations[] = array('callPlugin', $params);
     return $this;
   }
@@ -472,7 +474,7 @@ class Simplify_Thumb
    * Call plugin
    *
    * @param string $plugin plugin class
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function plugin($plugin)
   {
@@ -559,7 +561,7 @@ class Simplify_Thumb
    * Process and cache the image
    *
    * @param string $type image type
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function cache($type = null)
   {
@@ -600,7 +602,7 @@ class Simplify_Thumb
   /**
    * Delete image cache
    *
-   * @return Simplify_Thumb
+   * @return \Simplify\Thumb
    */
   public function cleanCached()
   {
@@ -638,7 +640,7 @@ class Simplify_Thumb
   /**
    * Process the image
    *
-   * @return Simplify_Thumb_Processor
+   * @return \Simplify\Thumb\Processor
    */
   protected function process()
   {
@@ -646,7 +648,7 @@ class Simplify_Thumb
 
     $file = $this->makeAbsolute($file);
 
-    $f = new Simplify_Thumb_Processor();
+    $f = new \Simplify\Thumb\Processor();
 
     $f->load($file);
 

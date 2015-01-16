@@ -21,21 +21,23 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb\Plugin;
+
 /**
  *
  * Resize plugin
  *
  */
-class Simplify_Thumb_Plugin_Overlay extends Simplify_Thumb_Plugin
+class Overlay extends \Simplify\Thumb\Plugin
 {
 
   /**
    * (non-PHPdoc)
-   * @see Simplify_Thumb_Plugin::process()
+   * @see \Simplify\Thumb\Plugin::process()
    */
-  protected function process(Simplify_Thumb_Processor $thumb, $overlayImage = null, $dst_x = 0, $dst_y = 0, $src_x = 0, $src_y = 0, $dst_w = null, $dst_h = null, $src_w = null, $src_h = null)
+  protected function process(\Simplify\Thumb\Processor $thumb, $overlayImage = null, $dst_x = 0, $dst_y = 0, $src_x = 0, $src_y = 0, $dst_w = null, $dst_h = null, $src_w = null, $src_h = null)
   {
-    $overlay = Simplify_Thumb_Functions::load($overlayImage);
+    $overlay = \Simplify\Thumb\Functions::load($overlayImage);
 
     $dst_w = is_null($dst_w) ? imagesx($overlay) : $dst_w;
     $dst_h = is_null($dst_h) ? imagesy($overlay) : $dst_h;

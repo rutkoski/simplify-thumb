@@ -21,21 +21,23 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb\Plugin;
+
 /**
  *
  * Resize plugin
  *
  */
-class Simplify_Thumb_Plugin_Resize extends Simplify_Thumb_Plugin
+class Resize extends \Simplify\Thumb\Plugin
 {
 
   /**
    * (non-PHPdoc)
-   * @see Simplify_Thumb_Plugin::process()
+   * @see \Simplify\Thumb\Plugin::process()
    */
-  protected function process(Simplify_Thumb_Processor $thumb, $width = null, $height = null, $mode = Simplify_Thumb::FIT_INSIDE, $far = false, $r = 0, $g = 0, $b = 0, $a = 0)
+  protected function process(\Simplify\Thumb\Processor $thumb, $width = null, $height = null, $mode = \Simplify\Thumb::FIT_INSIDE, $far = false, $r = 0, $g = 0, $b = 0, $a = 0)
   {
-    $thumb->image = Simplify_Thumb_Functions::resize($thumb->image, $width, $height, $mode, $far, $r, $g, $b, $a);
+    $thumb->image = \Simplify\Thumb\Functions::resize($thumb->image, $width, $height, $mode, $far, $r, $g, $b, $a);
   }
 
 }

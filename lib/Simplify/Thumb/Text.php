@@ -21,12 +21,14 @@
  * @author Rodrigo Rutkoski Rodrigues <rutkoski@gmail.com>
  */
 
+namespace Simplify\Thumb;
+
 /**
  *
  * Text operations and utilities
  *
  */
-class Simplify_Thumb_Text
+class Text
 {
 
   public static function breakTextToLength($text, $font, $size, $length, $chars = ' .!,:?')
