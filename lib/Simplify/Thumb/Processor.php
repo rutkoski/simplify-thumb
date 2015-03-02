@@ -36,7 +36,7 @@ class Processor
    *
    * @var int
    */
-  public $quality = 99;
+  public $quality = 90;
 
   /**
    *

@@ -83,8 +83,8 @@ class Thumb
 
     if ($params !== false) {
       $thumb->baseDir = sy_get_param($params, 'baseDir', \Simplify::config()->get('www_dir'));
-      $thumb->filesPath = sy_get_param($params, 'baseDir', \Simplify::config()->get('files_path'));
-      $thumb->cachePath = sy_get_param($params, 'baseDir', \Simplify::config()->get('filess_path') . '/cache');
+      $thumb->filesPath = sy_get_param($params, 'filesPath', \Simplify::config()->get('files_path'));
+      $thumb->cachePath = sy_get_param($params, 'cachePath', $thumb->filesPath . 'cache/');
     }
 
     return $thumb;
@@ -496,7 +496,7 @@ class Thumb
     }
 
     if (!sy_path_is_absolute($file)) {
-      $file = $this->baseDir . $this->filesPath . DIRECTORY_SEPARATOR . $file;
+      $file = $this->baseDir . $this->filesPath . $file;
     }
 
     $cacheFilename = $this->getCacheFilename();
@@ -576,7 +576,11 @@ class Thumb
     $filename = $this->baseDir . $cacheFilename;
 
     if (!file_exists($filename) || $this->ignoreCache) {
-      $this->process()->save($filename, $type);
+      try {
+        $this->process()->save($filename, $type);
+      } catch (ThumbException $e) {
+        //
+      }
     }
 
     return $this;
@@ -593,7 +597,7 @@ class Thumb
       $type = $this->originalType;
     }
 
-    $filename = $this->cachePath . '/' . $this->getCachePrefix() . md5(serialize($this->operations)) .
+    $filename = $this->cachePath . $this->getCachePrefix() . md5(serialize($this->operations)) .
        image_type_to_extension($type);
 
     return $filename;
@@ -606,7 +610,7 @@ class Thumb
    */
   public function cleanCached()
   {
-    foreach (glob($this->baseDir . $this->cachePath . '/' . $this->getCachePrefix() . '*.*') as $file) {
+    foreach (glob($this->baseDir . $this->cachePath . $this->getCachePrefix() . '*.*') as $file) {
       @unlink($file);
     }
 
@@ -661,11 +665,7 @@ class Thumb
 
   protected function makeAbsolute($file)
   {
-    if (!sy_path_is_absolute($file)) {
-      if (strpos($file, '/') !== 0) {
-        $file = $this->filesPath . '/' . $file;
-      }
-
+    if (!\sy_path_is_absolute($file)) {
       $file = $this->baseDir . $file;
     }
 
