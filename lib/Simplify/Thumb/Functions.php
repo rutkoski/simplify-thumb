@@ -288,6 +288,16 @@ class Functions
     if (empty($width) && empty($height))
       return $image;
 
+    if ((empty($width) || empty($height)) && $mode !== \Simplify\Thumb::NO_SCALE) {
+      $mode = \Simplify\Thumb::FIT_OUTSIDE;
+      
+      if (empty($width)) {
+        $width = 1;
+      } else {
+        $height = 1;
+      }
+    }
+    
     $w0 = imagesx($image);
     $h0 = imagesy($image);
 
@@ -323,7 +333,7 @@ class Functions
         $h1 = $h2 = $height;
         break;
     }
-
+    
     $x0 = ($w2 - $w1) / 2;
     $y0 = ($h2 - $h1) / 2;
 
