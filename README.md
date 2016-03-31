@@ -1,4 +1,4 @@
-# Simplify PHP - Thumb
+# Simplify Thumb
 
 Thumbnail generation and image processing, extendable and with a fluent interface.
 
